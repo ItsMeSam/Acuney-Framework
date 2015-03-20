@@ -1,0 +1,19 @@
+<?php
+
+include "lib/Acuney.class.php";
+include "lib/Model.class.php";
+include "lib/Controller.class.php";
+include "lib/View.class.php";
+include "lib/Route.class.php";
+include "lib/RouteGroup.class.php";
+include "lib/Router.class.php";
+include "lib/RegTPL.class.php";
+
+use Acuney\Core\Acuney;
+
+$acuney = new Acuney();
+$acuney->set('modeldir', 'app/models/');
+$acuney->set('viewdir', 'app/view/');
+$acuney->set('controllerdir', 'app/controllers/');
+$acuney->set('templatedir', '../public/');
+

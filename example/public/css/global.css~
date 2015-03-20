@@ -1,0 +1,9 @@
+body {
+	background:#F1F1F1;
+}
+
+h1 {
+	color:gray;
+	font-family:sans-serif;
+	text-align:center;
+}
