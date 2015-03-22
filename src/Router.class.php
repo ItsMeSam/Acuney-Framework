@@ -44,7 +44,8 @@ class Router
 		* might use the draw() method with 
 		* $_SERVER['REQUEST_URI'].
 		*/
-		if ( $this->routes->exist($_SERVER['REQUEST_URI']) )
+
+		if ( $this->routes->exist($this->current()))
 		{
 			return true;
 		}
@@ -52,6 +53,27 @@ class Router
 		{
 			return false;
 		}
+	}
+
+	public function split()
+	{
+		$url = (isset($_GET['uri']) ? trim($_GET['uri'],'/') : '/');
+		$url = explode('/', $url);
+		return $url;
+	}
+
+	public function current()
+	{
+		return \Acuney\Core\Acuney::$basepath . '/' . $this->split()[0];
+	}
+
+	public static function getParams()
+	{
+		$url = (isset($_GET['uri']) ? trim($_GET['uri'],'/') : '/');
+		$url = explode('/', $url);
+		array_shift($url);
+
+		return $url;
 	}
 
 	public function draw($uri)

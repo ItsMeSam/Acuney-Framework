@@ -1,6 +1,6 @@
 <?php
 
-namespace Acuney\View\RegTPL;
+namespace Acuney\View;
 
 class RegTPL 
 {

@@ -16,4 +16,7 @@ $acuney->set('modeldir', 'app/models/');
 $acuney->set('viewdir', 'app/view/');
 $acuney->set('controllerdir', 'app/controllers/');
 $acuney->set('templatedir', '../public/');
+$acuney->set('basepath', '/Acuney-Framework/example');
 
+//.. Site configuration
+define("SITE_URL", "http://127.0.0.1/Acuney-Framework/example/");
