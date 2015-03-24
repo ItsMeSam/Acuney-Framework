@@ -2,11 +2,10 @@
 
 class HomeModel extends Model
 {
-	public $output;
-	public $templatefile;
+	public static $templatefile;
 
 	public function __construct()
 	{
-		$this->templatefile = "home.tpl";
+		self::$templatefile = "home.tpl";
 	}
 }

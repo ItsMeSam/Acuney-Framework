@@ -10,6 +10,8 @@ class Router
 	public $view;
 	public $model;
 
+	private $errorhandler = array();
+
 	public function __construct(RouteGroup $group)
 	{
 		$this->routes = $group;
@@ -67,10 +69,21 @@ class Router
 		return \Acuney\Core\Acuney::$basepath . '/' . $this->split()[0];
 	}
 
+	public function method()
+	{
+		if ( !in_array($this->split()[1], $this->controller->ignoredActions()) )
+		{
+			$method = (isset($this->split()[1]) && $this->split()[1] != "" ? $this->split()[1] : $this->controller->defaultAction());
+		}
+
+		return $method;
+	}
+
 	public static function getParams()
 	{
 		$url = (isset($_GET['uri']) ? trim($_GET['uri'],'/') : '/');
 		$url = explode('/', $url);
+		array_shift($url);
 		array_shift($url);
 
 		return $url;
@@ -113,19 +126,46 @@ class Router
 		$this->view = new $v($this->controller, $this->model);
 	}
 
+	public function setErrorHandler(Route $errorroute)
+	{
+		$this->errorhandler = $errorroute;
+	}
+
+	public function handleError($error)
+	{
+		if ( $this->errorhandler != array() )
+		{
+			include \Acuney\Core\Acuney::$modeldir . $this->errorhandler->model . ".php";
+			include \Acuney\Core\Acuney::$controllerdir . $this->errorhandler->controller . ".php";
+			include \Acuney\Core\Acuney::$viewdir . $this->errorhandler->view . ".php";
+
+			$m = $this->errorhandler->model;
+			$m = new $m();	
+
+			$c = $this->errorhandler->controller;
+			$c = new $c($m);
+
+			$v = $this->errorhandler->view;
+			$v = new $v($c, $m);
+
+			$c->setError($error);
+			return $c->page();
+		}
+		else
+		{
+			return false;
+		}
+	}
+
 	public function run()
 	{
-		/*
-		* Checks if $this->view, $this->model
-		* and $this->controller has a parent
-		* class of View, Model or Controller.
-		* If it has, return the output() method
-		* which can be found in the $this->view
-		* property in this class.
-		*/
-		if ( is_a($this->view, 'View') && is_a($this->model, 'Model') && is_a($this->controller, 'Controller') )
+		if ( is_a($this->view, 'View') && is_a($this->model, 'Model') && is_a($this->controller, 'Controller') && method_exists($this->controller, $this->method()))
 		{
-			return $this->view->output();
+			return $this->controller->{$this->method()}();
+		}
+		else
+		{
+			return $this->handleError("404 Not Found");
 		}
 	}
 }

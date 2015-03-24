@@ -1,6 +1,6 @@
 <?php
 
-class View
+abstract class View
 {
 	public $model;
 	public $controller;

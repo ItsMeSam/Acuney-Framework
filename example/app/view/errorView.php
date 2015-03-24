@@ -4,6 +4,6 @@ class errorView extends View
 {
 	public function output()
 	{
-		return $this->model->string;
+		//.. TPL shizzle has to come
 	}
 }

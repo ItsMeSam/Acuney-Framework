@@ -31,18 +31,21 @@ $routegroup->attach(
 	)
 );
 
-$routegroup->attach(
-	new Route(
-		"/Acuney-Framework/example/error",
-		array(
-			"_model"		=> "errorModel",
-			"_controller"	=> "errorController",
-			"_view"			=> "errorView"
-		)
+$errorroute = new Route(
+	"/Acuney-Framework/example/error",
+	array(
+		"_model"		=> "errorModel",
+		"_controller"	=> "errorController",
+		"_view"			=> "errorView"
 	)
 );
 
+$routegroup->attach(
+	$errorroute
+);
+
 $router = new Router($routegroup);
+$router->setErrorHandler($errorroute);
 
 if ( $router->matchCurrent() )
 {
@@ -51,8 +54,5 @@ if ( $router->matchCurrent() )
 }
 else
 {
-	header("HTTP/1.0 404 Not Found");
-	$router->draw("/Acuney-Framework/example/error");
-	$router->controller->setError(404);
-	echo $router->run();
+	echo $router->handleError("404 Not Found");
 }

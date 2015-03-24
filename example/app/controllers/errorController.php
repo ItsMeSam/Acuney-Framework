@@ -1,16 +1,36 @@
 <?php
 
+use Acuney\Router\Router;
+
 class errorController extends Controller
 {
-	private $model;
 
-	public function __construct($model)
+	public function defaultAction()
 	{
-		$this->model = $model;
+		return "page";
+	}
+
+	public function ignoredActions()
+	{
+		return array(
+			"defaultAction",
+			"setError"
+		);
+	}
+
+	public function page()
+	{
+		if ( isset ( Router::getParams()[0] ) )
+		{
+			$error = Router::getParams()[0];
+			$this->setError($error);
+		}
+		return ErrorModel::$string;
 	}
 
 	public function setError($error)
 	{
-		$this->model->string = $error . $this->model->string;
+		header("HTTP/1.0 " . $error);
+		ErrorModel::$string = $error . ErrorModel::$string;
 	}
 }

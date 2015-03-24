@@ -8,6 +8,7 @@ class Acuney
 	public static $viewdir;
 	public static $controllerdir;
 	public static $templatedir;
+	public static $basepath;
 
 	public function set($option, $value)
 	{

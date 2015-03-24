@@ -5,8 +5,7 @@ use Acuney\Router\Router;
 
 class HomeView extends View
 {
-
-	public function output()
+	public static function output()
 	{
 		$tpl = new RegTPL();
 		$tpl->setDirectory('public');
@@ -20,10 +19,10 @@ class HomeView extends View
 		{
 			$tpl->addVar('param', 'no parameter has been used');
 		}
-		$tpl->parse($this->model->templatefile);
+		$tpl->parse(HomeModel::$templatefile);
 
 		ob_start();
-		include $tpl->cachedir . $this->model->templatefile . ".cache.php";
+		include $tpl->cachedir . HomeModel::$templatefile . ".cache.php";
 		return ob_get_clean();
 	}
 }

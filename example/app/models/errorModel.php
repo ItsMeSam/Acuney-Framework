@@ -2,10 +2,10 @@
 
 class errorModel extends Model
 {
-	public $string;
+	public static $string;
 
 	public function __construct()
 	{
-		$this->string = " - Oops.. an error occured..";
+		self::$string = " - Oops.. an error occured..";
 	}
 }
