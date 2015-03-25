@@ -71,10 +71,7 @@ class Router
 
 	public function method()
 	{
-		if ( !in_array($this->split()[1], $this->controller->ignoredActions()) )
-		{
-			$method = (isset($this->split()[1]) && $this->split()[1] != "" ? $this->split()[1] : $this->controller->defaultAction());
-		}
+		$method = (isset($this->split()[1]) && $this->split()[1] != "" && !in_array($this->split()[1], $this->controller->ignoredActions()) ? $this->split()[1] : $this->controller->defaultAction());
 
 		return $method;
 	}
