@@ -17,7 +17,7 @@ class HomeView extends View
 		}
 		else
 		{
-			$tpl->addVar('param', 'no parameter has been used');
+			$tpl->addVar('param', 'No parameter has been used.');
 		}
 		$tpl->parse(HomeModel::$templatefile);
 
