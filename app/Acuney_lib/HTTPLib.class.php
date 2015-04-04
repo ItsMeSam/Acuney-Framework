@@ -141,7 +141,7 @@ class HTTP
 	* @param {string} error
 	* @param {string} http
 	*/
-	public static function setError($error, $http = "HTTP/1.0");
+	public static function setError($error, $http = "HTTP/1.0")
 	{
 		header($error . ' ' . $http);
 	}

@@ -9,6 +9,7 @@ include "Acuney_lib/RouteGroup.class.php";
 include "Acuney_lib/Router.class.php";
 include "Acuney_lib/RegTPL.class.php";
 include "Acuney_lib/HTTPLib.class.php";
+include "Acuney_lib/DBManager.class.php";
 
 use Acuney\Core\Acuney;
 
