@@ -14,8 +14,7 @@ $routegroup->attach(
 		"/Acuney-Framework/home",
 		array(
 			"_model"		=> "homeModel",
-			"_controller"	=> "homeController",
-			"_view"			=> "homeView"
+			"_controller"	=> "homeController"
 		)
 	)
 );
@@ -25,8 +24,7 @@ $routegroup->attach(
 		"/Acuney-Framework/",
 		array(
 			"_model"		=> "homeModel",
-			"_controller"	=> "homeController",
-			"_view"			=> "homeView"
+			"_controller"	=> "homeController"
 		)
 	)
 );
@@ -35,8 +33,7 @@ $errorroute = new Route(
 	"/Acuney-Framework/error",
 	array(
 		"_model"		=> "errorModel",
-		"_controller"	=> "errorController",
-		"_view"			=> "errorView"
+		"_controller"	=> "errorController"
 	)
 );
 

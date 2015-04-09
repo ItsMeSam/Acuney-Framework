@@ -23,7 +23,7 @@ class Router
 		* If $uri exists in $this->routes,
 		* return true and otherwise return
 		* false. After returning true, you
-		* might use the draw() method with 
+		* might use the draw() method with
 		* the current $uri.
 		*/
 		if ( $this->routes->exist($uri) )
@@ -32,18 +32,18 @@ class Router
 		}
 		else
 		{
-			return false;	
-		}		
+			return false;
+		}
 	}
 
 	public function matchCurrent()
 	{
 		/*
-		* If $_SERVER['REQUEST_URI'] exists 
+		* If $_SERVER['REQUEST_URI'] exists
 		* in $this->routes,
 		* return true and otherwise return
 		* false. After returning true, you
-		* might use the draw() method with 
+		* might use the draw() method with
 		* $_SERVER['REQUEST_URI'].
 		*/
 
@@ -105,22 +105,22 @@ class Router
 		* Include all the needed classes and
 		* then make an instantiance of them.
 		* All instantiances will be saved in
-		* an property of this class so you 
+		* an property of this class so you
 		* can use the controller before
 		* using the run() method in this class.
 		*/
 		include \Acuney\Core\Acuney::$modeldir . $this->routes->pluck($uri)->model . ".php";
 		include \Acuney\Core\Acuney::$controllerdir . $this->routes->pluck($uri)->controller . ".php";
-		include \Acuney\Core\Acuney::$viewdir . $this->routes->pluck($uri)->view . ".php";
 
 		$m = $this->routes->pluck($uri)->model;
 		$this->model = new $m;
 
 		$c = $this->routes->pluck($uri)->controller;
 		$this->controller = new $c;
+		$dir = ucfirst(str_replace('controller', '', strtolower($c)));
 
-		$v = $this->routes->pluck($uri)->view;
-		$this->view = new $v;
+		$this->controller->setDirectory(\Acuney\Core\Acuney::$viewdir . $dir);
+		$this->controller->setCacheDirectory(\Acuney\Core\Acuney::$cachedir);
 	}
 
 	public function setErrorHandler(Route $errorroute)
@@ -134,16 +134,12 @@ class Router
 		{
 			include \Acuney\Core\Acuney::$modeldir . $this->errorhandler->model . ".php";
 			include \Acuney\Core\Acuney::$controllerdir . $this->errorhandler->controller . ".php";
-			include \Acuney\Core\Acuney::$viewdir . $this->errorhandler->view . ".php";
 
 			$m = $this->errorhandler->model;
-			$m = new $m();	
+			$m = new $m();
 
 			$c = $this->errorhandler->controller;
 			$c = new $c;
-
-			$v = $this->errorhandler->view;
-			$v = new $v;
 
 			$c->setError($error);
 			return $c->page();
@@ -156,9 +152,12 @@ class Router
 
 	public function run()
 	{
-		if ( is_a($this->view, 'View') && is_a($this->model, 'Model') && is_a($this->controller, 'Controller') && method_exists($this->controller, $this->method()))
+		$method = $this->method();
+
+		if ( is_a($this->model, 'Model') && is_a($this->controller, 'Controller') && method_exists($this->controller, $method))
 		{
-			return $this->controller->{$this->method()}();
+			$this->controller->setTemplate($method . '.tpl');
+			return $this->controller->{$method}();
 		}
 		else
 		{
