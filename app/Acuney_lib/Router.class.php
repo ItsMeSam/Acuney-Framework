@@ -66,7 +66,7 @@ class Router
 
 	public function current()
 	{
-		return \Acuney\Core\Acuney::$basepath . '/' . $this->split()[0];
+		return APP_BASE . '/' . $this->split()[0];
 	}
 
 	public function method()
@@ -109,8 +109,8 @@ class Router
 		* can use the controller before
 		* using the run() method in this class.
 		*/
-		include \Acuney\Core\Acuney::$modeldir . $this->routes->pluck($uri)->model . ".php";
-		include \Acuney\Core\Acuney::$controllerdir . $this->routes->pluck($uri)->controller . ".php";
+		include APP_MODELDIR . $this->routes->pluck($uri)->model . ".php";
+		include APP_CONTROLLERDIR . $this->routes->pluck($uri)->controller . ".php";
 
 		$m = $this->routes->pluck($uri)->model;
 		$this->model = new $m;
@@ -119,8 +119,8 @@ class Router
 		$this->controller = new $c;
 		$dir = ucfirst(str_replace('controller', '', strtolower($c)));
 
-		$this->controller->setDirectory(\Acuney\Core\Acuney::$viewdir . $dir);
-		$this->controller->setCacheDirectory(\Acuney\Core\Acuney::$cachedir);
+		$this->controller->setDirectory(APP_VIEWDIR . $dir);
+		$this->controller->setCacheDirectory(APP_CACHE);
 	}
 
 	public function setErrorHandler(Route $errorroute)
@@ -132,8 +132,8 @@ class Router
 	{
 		if ( $this->errorhandler != array() )
 		{
-			include \Acuney\Core\Acuney::$modeldir . $this->errorhandler->model . ".php";
-			include \Acuney\Core\Acuney::$controllerdir . $this->errorhandler->controller . ".php";
+			include APP_MODELDIR . $this->errorhandler->model . ".php";
+			include APP_CONTROLLERDIR . $this->errorhandler->controller . ".php";
 
 			$m = $this->errorhandler->model;
 			$m = new $m();
